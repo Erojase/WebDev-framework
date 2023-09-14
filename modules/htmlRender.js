@@ -9,9 +9,11 @@ function renderHTML(filePath, config) {
 
 function getComponents(dom, config) {
     config["components"].forEach(comp => {
-        if (dom.window.document.getElementById(comp) != undefined) {
+        if (dom.window.document.getElementsByClassName(comp) != undefined) {
             let HTMLcomp = fs.readFileSync(`./src/components/${comp}.html`, 'utf-8');
-            dom.window.document.getElementById(comp).innerHTML = HTMLcomp;
+            for (const elem of dom.window.document.getElementsByClassName(comp)) {
+                elem.innerHTML = HTMLcomp;
+            }
         }
     });
     
