@@ -6,7 +6,8 @@ A web development framework attempt
 ## Features
 - [x] Local server deployment
 - [x] Configuration json file
+- [ ] Page routing
 - [ ] Live reload every time a file is modified
-- [ ] HTML components
+- [x] HTML components
 - [ ] Typescript support
 

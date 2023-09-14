@@ -1,17 +1,19 @@
-const fs = require("fs");
 const http = require("http");
 const { startLiveReload } = require("./modules/liveReload");
 const { ConfigLoader } = require("./modules/configLoader");
 const { renderHTML } = require("./modules/htmlRender");
+const { Router } = require("./modules/router");
 
 const config = new ConfigLoader().config;
 const host = config.host;
 const port = config.port;
 const indexPath = "./src/index.html";
+const router = new Router(indexPath);
 
 const requestListener = function(req, res) {
-    res.writeHead(200);
-    res.end(renderHTML(indexPath, config));
+    let page = router.route(req.url);
+    res.writeHead(page["status"]);
+    res.end(renderHTML(page["path"], config));
 }
 
 

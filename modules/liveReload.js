@@ -7,7 +7,7 @@ function startLiveReload(callback) {
 }
 
 function getFilesToListen() {
-    console.log(fs.readdirSync("./src"));
+    //console.log(fs.readdirSync("./src"));
 }
 
 module.exports.startLiveReload = startLiveReload;
