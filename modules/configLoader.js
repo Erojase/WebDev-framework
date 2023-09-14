@@ -10,6 +10,7 @@ class ConfigLoader{
 
     componentMapper(){
         let compDir = fs.readdirSync("./src/components")
+        this.config["components"] = [];
         compDir.forEach(comp => {
             if (comp.includes(".html")) {
                 this.config["components"].push(comp.split(".html")[0]);
