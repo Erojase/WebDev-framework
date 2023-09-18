@@ -1,5 +1,10 @@
 {
-  "dependencies": {
-    "jsdom": "^22.1.0"
-  }
+	"name": "my-framework",
+	"description": "Something something framework",
+	"scripts": {
+		"dev": "node app.js"
+	},
+	"dependencies": {
+		"jsdom": "^22.1.0"
+	}
 }
