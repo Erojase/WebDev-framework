@@ -4,6 +4,10 @@ const fs = require("fs");
 
 function startLiveReload(callback) {
     getFilesToListen();
+    fs.watch("./src/index.html", (eventType, filename) => {
+        console.log("\nThe file", filename, "was modified!");
+        console.log("The type of change was:", eventType);
+      });
 }
 
 function getFilesToListen() {

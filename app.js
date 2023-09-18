@@ -11,6 +11,8 @@ const port = config.port;
 const indexPath = `./src/${config.index}`;
 const router = new Router(indexPath);
 
+let currentPage = "";
+
 const requestListener = function (req, res) {
 	let page = router.route(req.url);
 
