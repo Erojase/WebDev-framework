@@ -16,8 +16,7 @@ const requestListener = function (req, res) {
 
 	if (page.type == "resource") {
         res.writeHead(page.status);
-        res.sendFile(page.path);
-        res.end();
+        res.end(fs.readFileSync(page.path, "utf-8"));
 	} else if (page.type == "page") {
         res.writeHead(page.status);
 		res.end(renderHTML(page.path, config));

@@ -5,6 +5,7 @@
 		"dev": "node app.js"
 	},
 	"dependencies": {
+		"http": "^0.0.1-security",
 		"jsdom": "^22.1.0"
 	}
 }
