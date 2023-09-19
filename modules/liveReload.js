@@ -1,17 +1,36 @@
 const fs = require("fs");
 
-//Mirate esto https://stackoverflow.com/questions/65680018/javascript-node-js-check-if-file-has-changed
+function startLiveReload(port) {
+	let files = listAllDirFiles("./src");
 
-function startLiveReload(callback) {
-    getFilesToListen();
-    fs.watch("./src/index.html", (eventType, filename) => {
-        console.log("\nThe file", filename, "was modified!");
-        console.log("The type of change was:", eventType);
-      });
+	files.forEach((path) => {
+		fs.watchFile(path, (curr, prev) => {
+			console.log("Change detected, reloading...");
+			// callback({"url":"/"});
+			fetch(`http://localhost:${port}/reload`, {
+				method: "POST",
+			});
+		});
+	});
 }
 
-function getFilesToListen() {
-    //console.log(fs.readdirSync("./src"));
+/**
+ * lists an array of every file in the given directory and subdirectories
+ * @param {string} dirPath
+ */
+function listAllDirFiles(dirPath) {
+	let files = [];
+	let dir = fs.readdirSync(dirPath);
+
+	dir.forEach((elem) => {
+		if (fs.statSync(`${dirPath}/${elem}`).isFile()) {
+			files.push(`${dirPath}/${elem}`);
+		} else {
+			files = files.concat(listAllDirFiles(`${dirPath}/${elem}`));
+		}
+	});
+
+	return files;
 }
 
 module.exports.startLiveReload = startLiveReload;
