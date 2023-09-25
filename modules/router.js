@@ -5,7 +5,7 @@ class Router {
 	 * @param {string} indexPath the file path to the index file
 	 */
 	constructor(indexPath) {
-		this.routes = [new Route(indexPath, "/")];
+		this.routes = [new Route("/",indexPath)];
 		this.loadRoutes();
 	}
 
@@ -14,10 +14,19 @@ class Router {
 		contents.forEach((elem) => {
 			if (elem.includes(".html")) {
 				this.routes.push(
-					new Route("./src/pages/" + elem, "/" + elem.split(".html")[0])
+					new Route( "/" + elem.split(".html")[0],"./src/pages/" + elem)
 				);
 			}
 		});
+	}
+
+	/**
+	 * 
+	 * @param {string} path 
+	 * @param {()} callback 
+	 */
+	createEndpoint(path, callback){
+
 	}
 
 	/**
@@ -26,19 +35,24 @@ class Router {
 	 * @returns {Response} page
 	 */
 	route(path) {
-		let pageFound = new Response(400, this.routes[0].path, "None");
+		let pageFound = new Response(400, this.routes[0].destination, "None");
 		let filter = /\.[A-Za-z]+/i; //Regex to match any string like /***.***
 
-		if (filter.test(path)) {
+		if (filter.test(path)) { // if is a file
 			if (fs.existsSync("./src"+path)) {
 				pageFound.set(200, "./src"+path, "resource");
 			} else {
 				pageFound.notFound();
 			}
-		} else {
+		} else { //else, is an endpoint
 			this.routes.forEach((route) => {
-				if (path == route.route) {
-					pageFound.set(200, route.path, "page");
+				if (path == route.endpoint) {
+					if (route.type == "static") {
+						pageFound.set(200, route.destination, "page");
+					} else if (route.type == "dynamic") {
+						//TODO: haz lo de cosa("/pancracio", ()=>{log()})
+						route.destination;
+					}
 				}
 			});
 		}
@@ -50,13 +64,13 @@ class Router {
 class Route {
 	/**
 	 *
-	 * @param {string} path the path of the html file in the server from the project root
 	 * @param {string} route the web route with the / character e.g. "/profile"
+	 * @param {string | ()} destination the path of the html file in the server from the project root
 	 * @param {"static"|"dynamic"} type type of the route, it can be a static route that goes to a existing html page or dynamic referring to a non-static html file.
 	 */
-	constructor(path, route, type = "static") {
-		this.path = path;
-		this.route = route;
+	constructor(route, destination, type = "static" ) {
+		this.destination = destination;
+		this.endpoint = route;
 		this.type = type;
 	}
 }
