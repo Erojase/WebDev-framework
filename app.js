@@ -11,7 +11,7 @@ const indexPath = `./src/${config.index}`;
 const router = new Router(indexPath);
 
 
-const requestListener = function (req, res) {
+const requestListener = (req, res) => {
 	new RequestManager(config, router, req, res).manage();
 };
 

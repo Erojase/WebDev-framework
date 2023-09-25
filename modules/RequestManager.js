@@ -28,15 +28,17 @@ class RequestManager{
         
     }
 
-    GETmanager() {
-        let page = this.router.route(this.req.url);
+    GETmanager(page = null) {
+        if (page == null) {
+            page = this.router.route(this.req.url);
+        }
 
     
         if (page.type == "resource") {
             this.res.writeHead(page.status);
             this.res.end(fs.readFileSync(page.path, "utf-8"));
         } else if (page.type == "page") {
-            this.lastPage = 
+            this.lastPage = page;
             this.res.writeHead(page.status);
             this.res.end(renderHTML(page.path, this.config));
         } else {
@@ -48,6 +50,7 @@ class RequestManager{
     
     POSTmanager() {
         console.log("POST recieved");
+        this.GETmanager(this.lastPage);
     }
 }
 

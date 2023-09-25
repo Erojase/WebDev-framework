@@ -6,10 +6,13 @@ function startLiveReload(port) {
 	files.forEach((path) => {
 		fs.watchFile(path, (curr, prev) => {
 			console.log("Change detected, reloading...");
-			// callback({"url":"/"});
-			fetch(`http://localhost:${port}/reload`, {
-				method: "POST",
-			});
+            try {
+                fetch(`http://localhost:${port}/reload`, {
+                    method: "POST",
+                });
+            } catch (error) {
+                
+            }
 		});
 	});
 }
