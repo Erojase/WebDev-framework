@@ -41,6 +41,9 @@ class RequestManager{
             this.lastPage = page;
             this.res.writeHead(page.status);
             this.res.end(renderHTML(page.path, this.config));
+        } else if (page.type == "function") {
+            this.res.writeHead(page.status);
+            this.res.end(page.path());
         } else {
             this.res.writeHead(page.status);
             this.res.end();

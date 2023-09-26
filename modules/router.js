@@ -26,7 +26,9 @@ class Router {
 	 * @param {()} callback 
 	 */
 	createEndpoint(path, callback){
-
+		this.routes.push(
+			new Route(path, callback, "dynamic")
+		)
 	}
 
 	/**
@@ -50,8 +52,7 @@ class Router {
 					if (route.type == "static") {
 						pageFound.set(200, route.destination, "page");
 					} else if (route.type == "dynamic") {
-						//TODO: haz lo de cosa("/pancracio", ()=>{log()})
-						route.destination;
+						pageFound.set(200, route.destination, "function");
 					}
 				}
 			});
@@ -69,7 +70,7 @@ class Route {
 	 * @param {"static"|"dynamic"} type type of the route, it can be a static route that goes to a existing html page or dynamic referring to a non-static html file.
 	 */
 	constructor(route, destination, type = "static" ) {
-		this.destination = destination;
+		this.destination = destination; // idk what name give it https://a.pinatafarm.com/1500x1005/2347970ac0/jackie-chan-confused.jpg
 		this.endpoint = route;
 		this.type = type;
 	}
@@ -93,7 +94,7 @@ class Response{
 	 * 
 	 * @param {Number} status 
 	 * @param {string} path 
-	 * @param {"None"|"resource"|"page"} type 
+	 * @param {"None"|"resource"|"page"|"function"} type 
 	 */
 	set(status, path, type){
 		this.status = status;

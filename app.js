@@ -10,6 +10,9 @@ const port = config.port;
 const indexPath = `./src/${config.index}`;
 const router = new Router(indexPath);
 
+router.createEndpoint("/test", ()=>{
+	return "jamon";
+})
 
 const requestListener = (req, res) => {
 	new RequestManager(config, router, req, res).manage();
@@ -21,6 +24,6 @@ server.listen(port, host, () => {
 	require("child_process").exec(`start http://${host}:${port}`);
 	
 	if (host == "localhost") {
-		startLiveReload(port);
+		//startLiveReload(port);
 	}
 });
