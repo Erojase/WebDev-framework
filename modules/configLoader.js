@@ -5,6 +5,7 @@ class ConfigLoader{
 
     constructor(){
         this.config = JSON.parse(fs.readFileSync("./config.json"));
+        this.startAttachedScripts();
         this.componentMapper();
     }
 
@@ -21,6 +22,15 @@ class ConfigLoader{
 
     overWritteConfig(config){
         fs.writeFileSync("./config.json", config);
+    }
+
+    startAttachedScripts(){
+        //TODO: execute function with its name
+        this.config["scripts"].forEach(script => {
+            let [path, func] = script.split("::");
+            path = "../"+path;
+            require(path).start();
+        });
     }
 
 }
